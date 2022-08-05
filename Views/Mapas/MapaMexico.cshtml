@@ -7,6 +7,7 @@
 <script src="~/js/mx.js"></script>
 <script src="~/js/topojson.js"></script>
 <script src="~/js/informacionGraficaMexico.js"></script>
+<script src="~/js/dom-to-image.min.js"></script>
 
 <!-- Región de trabajo -->
 <div id="panel" data-prefix="MapaMexico.PDF">
@@ -50,7 +51,7 @@
 		var svg = d3.select("#chart").append("svg")
 				    .attr("id", "MapaMexico")
 				    .attr("width", width)
-				    .attr("height", height);
+				    .attr("height", height - 300);
 
 		svg.selectAll(".subunit")
 			.data(topojson.object(mx, mx.objects.subunitsM).geometries)
@@ -130,5 +131,49 @@
 		}
 
 		return 0;
+	}
+
+	function GenerarVisorPDF(){
+		var divid = "panel";
+		let mywindow = window.open('', 'PRINT', 'height=650,width=900,top=100,left=150')
+		
+		mywindow.document.write($("#"+divid).html());
+		mywindow.document.close();
+		mywindow.focus();
+		mywindow.print();
+		mywindow.close();
+		
+		return true;
+	}
+
+	function GenerarPDF(){
+		getImgFromSVG(function(img){
+			generatePDF(img)
+		})
+	}
+
+	function generatePDF(img){
+		var doc = new jsPDF();
+		var imgData = img;
+		
+		doc.setFontSize(40);
+		doc.text(30, 20, $("#tituloGrafica").html());
+		doc.addImage(imgData, 'JPEG', 0, 40, 200, 160);
+		doc.save($("#panel").data("prefix"));
+	}
+
+	function getImgFromSVG(callback){
+		var node = document.getElementById('chart');
+		domtoimage.toPng(node)
+				  .then(function(dataUrl){
+					var img = new Image();
+					img.src = dataUrl;
+					img.onload = function() {
+						callback(img)
+					}
+				  })
+				  .catch(function(error){
+					alert("ups");
+			      })
 	}
 </script>

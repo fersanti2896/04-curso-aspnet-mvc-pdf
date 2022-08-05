@@ -7,9 +7,10 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/tooltip.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/Pedidos.styles.css" asp-append-version="true" />
+    @*<link rel="stylesheet" href="~/Pedidos.styles.css" asp-append-version="true" />*@
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
-    <script type="text/javascript" src="~/js/FuncionesGenerales.js"></script>
+    <script type="text/javascript" src="~/js/FuncionesGenerales.js?1"></script>
     <script type="text/javascript" src="~/js/tooltip.js"></script>
     <script type="text/javascript" src="~/js/d3.colores.js"></script>
     <!--<script type="text/javascript" src="~/js/d3.layout.cloud.js"></script>-->
@@ -51,8 +52,20 @@
                         </li>
                     </ul>
                     <form class="form-inline my-2 my-lg-0">
-                        <button class="btn btn-outline-success my-2 my-sm-0" type="button" id="descargaPDF">
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="button"
+                                onmouseover="tooltip.show('Descargar documento de la gráfica en formato PDF')"
+                                onmouseout="tooltip.hide();"
+                                onclick="tooltip.hide();GenerarPDF();">
+                            <i class="fa fa-file-pdf"></i>
                             Descarga
+                        </button>
+                        <br />
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="button" 
+                            onmouseover="tooltip.show('Generar vista previa de la gráfica')"
+                            onmouseout="tooltip.hide();"
+                            onclick="tooltip.hide();GenerarVisorPDF();" >
+                            <i class="fa fa-save"></i>
+                            Vista previa
                         </button>
                     </form>
                 </div>
